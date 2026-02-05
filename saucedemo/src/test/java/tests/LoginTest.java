@@ -1,15 +1,21 @@
 package tests;
 
 import base.BaseTest;
+import io.qameta.allure.*;
 import org.junit.jupiter.api.Test;
 import pages.InventoryPage;
 import pages.LoginPage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Epic("Authentication")
+@Feature("Login")
 public class LoginTest extends BaseTest {
 
     @Test
+    @Story("Successful login with valid credentials")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Verify that user can log in with standard_user credentials and access the inventory page")
     void successfulLogin() {
 
         LoginPage loginPage = new LoginPage();
@@ -23,6 +29,9 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Story("Login attempt with incorrect password")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that user sees correct error message when entering wrong password")
     void notCorrectPassword() {
 
         LoginPage loginPage = new LoginPage();
@@ -35,6 +44,9 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Story("Login attempt with blocked user")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that locked_out_user cannot log in and sees the proper error message")
     void blockedUser() {
 
         LoginPage loginPage = new LoginPage();
@@ -47,6 +59,9 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Story("Login attempt with empty username and password")
+    @Severity(SeverityLevel.NORMAL)
+    @Description("Verify that user sees an error message when leaving username and password empty")
     void emptyFields() {
 
         LoginPage loginPage = new LoginPage();
@@ -59,6 +74,9 @@ public class LoginTest extends BaseTest {
     }
 
     @Test
+    @Story("Login with performance glitch user")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Verify that performance_glitch_user can log in and inventory page loads correctly despite potential delays")
     void performanceGlitchUserLogin() {
 
         LoginPage loginPage = new LoginPage();

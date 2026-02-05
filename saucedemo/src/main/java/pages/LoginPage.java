@@ -1,6 +1,7 @@
 package pages;
 
 import config.ConfigReader;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
@@ -15,24 +16,29 @@ public class LoginPage extends BasePage {
         return this;
     }
 
+    @Step("Enter username: {username}")
     public void enterUsername(String username) {
         driver.findElement(usernameInput).sendKeys(username);
     }
 
+    @Step("Enter password: {password}")
     public void enterPassword(String password) {
         driver.findElement(passwordInput).sendKeys(password);
     }
 
+    @Step("Click login button")
     public void clickLogin() {
         driver.findElement(loginButton).click();
     }
 
+    @Step("Login with username: {user} and password: {pass}")
     public void login(String user, String pass) {
         enterUsername(user);
         enterPassword(pass);
         clickLogin();
     }
 
+    @Step("Get error message text")
     public String getErrorText() {
         return driver.findElement(errorMessage).getText();
     }
