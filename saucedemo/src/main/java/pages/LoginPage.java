@@ -1,7 +1,6 @@
 package pages;
 
 import config.ConfigReader;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 
 public class LoginPage extends BasePage {
