@@ -1,0 +1,53 @@
+package drivers;
+
+import config.ConfigReader;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.time.Duration;
+
+public class DriverFactory {
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+
+    private DriverFactory() {
+    }
+
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
+
+    public static void initDriver() {
+
+        String browser = System.getProperty(
+                "browser",
+                ConfigReader.get("browser")
+        );
+
+        WebDriver webDriver;
+
+        switch (browser) {
+
+            case "chrome":
+            default:
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--start-maximized");
+                webDriver = new ChromeDriver(chromeOptions);
+                break;
+        }
+
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        webDriver.manage().deleteAllCookies();
+
+        driver.set(webDriver);
+    }
+
+    public static void quitDriver() {
+        if (driver.get() != null) {
+            driver.get().quit();
+            driver.remove();
+        }
+    }
+}
