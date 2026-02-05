@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import pages.InventoryPage;
 import pages.LoginPage;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Epic("Authentication")
@@ -40,7 +41,8 @@ public class LoginTest extends BaseTest {
                 .openPage()
                 .login("standard_user", "invalid_sauce");
 
-        assertTrue(loginPage.getErrorText().contains("Epic sadface: Username and password do not match any user in this service"));
+        assertEquals("Epic sadface: Username and password do not match any user in this service",
+                loginPage.getErrorText());
     }
 
     @Test
@@ -55,7 +57,8 @@ public class LoginTest extends BaseTest {
                 .openPage()
                 .login("locked_out_user", "secret_sauce");
 
-        assertTrue(loginPage.getErrorText().contains("Epic sadface: Sorry, this user has been locked out."));
+        assertEquals("Epic sadface: Sorry, this user has been locked out.",
+                loginPage.getErrorText());
     }
 
     @Test
@@ -70,7 +73,7 @@ public class LoginTest extends BaseTest {
                 .openPage()
                 .login("", "");
 
-        assertTrue(loginPage.getErrorText().contains("Epic sadface: Username is required"));
+        assertEquals(("Epic sadface: Username is required"), loginPage.getErrorText());
     }
 
     @Test

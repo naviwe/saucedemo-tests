@@ -5,6 +5,8 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.time.Duration;
 
@@ -19,15 +21,16 @@ public class DriverFactory {
     }
 
     public static void initDriver() {
-
-        String browser = System.getProperty(
-                "browser",
-                ConfigReader.get("browser")
-        );
+        String browser = System.getProperty("browser", ConfigReader.get("browser")).toLowerCase();
 
         WebDriver webDriver;
 
         switch (browser) {
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                webDriver = new FirefoxDriver(firefoxOptions);
+                break;
 
             case "chrome":
             default:
@@ -40,7 +43,6 @@ public class DriverFactory {
 
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         webDriver.manage().deleteAllCookies();
-
         driver.set(webDriver);
     }
 
